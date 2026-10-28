@@ -1,0 +1,24 @@
+resources:
+  pipelines:
+    retail_pipeline:
+      # Create a separate pipeline for each target.
+      name: retail_demo4_${bundle.target}
+
+      # Write tables to the target's catalog and schema.
+      catalog: ${var.catalog}
+      schema: ${var.target_schema}
+
+      # Use serverless compute and stop after each update.
+      serverless: true
+      continuous: false
+
+      # Allow the pipeline to import our transformation module.
+      root_path: ${workspace.file_path}
+
+      libraries:
+        - file:
+            path: ../src/retail_pipeline.py
+
+      configuration:
+        # Both environments read the same unchanged source.
+        retail.landing_path: /Volumes/workspace/retail_demo/retail_source_files/landing

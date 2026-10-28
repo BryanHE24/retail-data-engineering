@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    retail_validation_job:
+      # Give each environment its own job.
+      name: retail_demo4_validation_${bundle.target}
+
+      tasks:
+        # STEP 1: Update this environment's pipeline.
+        - task_key: update_pipeline
+          pipeline_task:
+            # Reference the pipeline deployed by this bundle.
+            pipeline_id: ${resources.pipelines.retail_pipeline.id}
+
+        # STEP 2: Verify the results after the pipeline succeeds.
+        - task_key: verify_results
+          depends_on:
+            - task_key: update_pipeline
+
+          notebook_task:
+            # Path is relative to this YAML file.
+            notebook_path: ../verify.ipynb
+            # Send the environment's full schema name to the notebook.
+            base_parameters:
+              target_schema: ${var.catalog}.${var.target_schema}
