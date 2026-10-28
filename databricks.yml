@@ -1,0 +1,30 @@
+# Load pipeline and job definitions from the resources folder.
+include:
+  - resources/*.yml
+
+# Name of this deployable project.
+bundle:
+  name: retail-tested-deployment
+
+# Values that our pipeline and job definitions will use.
+variables:
+  catalog:
+    description: Unity Catalog catalog for the demo.
+    default: workspace
+
+  target_schema:
+    description: Separate output schema for each environment.
+
+# Keep deployment files and state separate for each target.
+workspace:
+  root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+
+targets:
+  dev:
+    default: true
+    variables:
+      target_schema: retail_demo4_dev
+
+  test:
+    variables:
+      target_schema: retail_demo4_test

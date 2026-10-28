@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Generated local bundle state.
+.databricks/
+
+# Local test output and temporary editor backups.
+test-output.txt
+*.bak
