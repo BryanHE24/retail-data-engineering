@@ -1,0 +1,5 @@
+# Run Spark transformations locally.
+pyspark==4.0.1
+
+# Run automated tests for our business rules.
+pytest==8.4.2
